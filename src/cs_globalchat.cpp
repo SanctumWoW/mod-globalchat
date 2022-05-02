@@ -57,7 +57,7 @@ public:
 
         if (sGlobalChatMgr->FactionSpecific && session->GetSecurity() > 0)
         {
-            handler->PSendSysMessage("Please use |cff4CFF00.galliance|r or .|cff4CFF00ghorde|r for the GlobalChat as GM.");
+            handler->PSendSysMessage("Please use |cff4CFF00.walliance|r or .|cff4CFF00whorde|r for the WorldChat as GM.");
             return true;
         }
 
