@@ -9,7 +9,7 @@ INSERT INTO `acore_string` (`entry`, `content_default`, `locale_koKR`, `locale_f
 (17005, '|cffff0000You have been muted for %s in the WorldChat.|r Reason: %s', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (17006, '|cffff0000You have been permanently muted in the WorldChat.|r Reason: %s', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);                                                                                                                                                                           ;
 
-DELETE FROM `command` WHERE `name` IN ('world','w','chat','c','joinworld','leaveworld','wenable','wdisable','wmute','wunmute','winfo');
+DELETE FROM `command` WHERE `name` IN ('world','w','chat','c','joinworld','leaveworld','wenable','wdisable','wmute','wunmute','winfo','walliance','whorde');
 INSERT INTO `command` (`name`, `security`, `help`) VALUES
 ('world', 0, 'Syntax: .world $text\nWrite a message in the WorldChat.\nAdditional commands: .joinworld & .leaveworld'),
 ('w', 0, 'Syntax: .w $text\nWrite a message in the WorldChat.\nAdditional commands: .joinworld & .leaveworld'),
@@ -21,4 +21,6 @@ INSERT INTO `command` (`name`, `security`, `help`) VALUES
 ('wdisable', 1, 'Disables WorldChat.'),
 ('wmute', 1, 'Syntax: $playername $bantime $reason\nMutes a player in the WorldChat\n$bantime: Negative values lead to perment mute. Otherwise use a timestring like "1d2h30s".'),
 ('wunmute', 1, 'Syntax: $playername\nUnmutes player in the WorldChat.'),
-('winfo', 1, 'Syntax: $playername\nGives WorldChat information about a player.');
+('winfo', 1, 'Syntax: $playername\nGives WorldChat information about a player.'),
+('walliance', 1, 'Syntax: .walliance $text\nWrite a message in the Alliance WorldChat.'),
+('whorde', 1, 'Syntax: .whorde $text\nWrite a message in the Horde WorldChat.');

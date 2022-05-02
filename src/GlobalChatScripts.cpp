@@ -40,20 +40,20 @@ public:
         {
             if (sGlobalChatMgr->Announce)
             {
-                ChatHandler(player->GetSession()).SendSysMessage("This server is running the |cff4CFF00WorldChat|r module. Use |cff4CFF00.help global|r to find out how to use it.");
+                ChatHandler(player->GetSession()).PSendSysMessage("This server is running the |cff4CFF00WorldChat|r module. Use |cff4CFF00.help global|r to find out how to use it.");
             }
 
             sGlobalChatMgr->LoadPlayerData(player);
 
             if (!sGlobalChatMgr->IsInChat(player->GetGUID()))
             {
-                if (sGlobalChatMgr->JoinChannel)
+                if (sGlobalChatMgr->JoinChannel && !sGlobalChatMgr->ChatName.empty())
                 {
-                    ChatHandler(player->GetSession()).SendSysMessage("You can join the |cffFF0000WorldChat|r by typing |cffFF0000.joinglobal|r or |cffFF0000/join %s|r at any time.", sGlobalChatMgr->ChatName.c_str());
+                    ChatHandler(player->GetSession()).PSendSysMessage("You can join the |cffFF0000WorldChat|r by typing |cffFF0000.joinglobal|r or |cffFF0000/join %s|r at any time.", sGlobalChatMgr->ChatName.c_str());
                 }
                 else
                 {
-                    ChatHandler(player->GetSession()).SendSysMessage("You can join the |cffFF0000WorldChat|r by typing |cffFF0000.joinglobal|r at any time.");
+                    ChatHandler(player->GetSession()).PSendSysMessage("You can join the |cffFF0000WorldChat|r by typing |cffFF0000.joinglobal|r at any time.");
                 }
             }
         }
@@ -66,7 +66,7 @@ public:
 
     void OnChat(Player* player, uint32 /*type*/, uint32 lang, std::string& msg, Channel* channel)
     {
-        if (sGlobalChatMgr->JoinChannel && sGlobalChatMgr->ChatName != "" && lang != LANG_ADDON && !strcmp(channel->GetName().c_str(), sGlobalChatMgr->ChatName.c_str()))
+        if (sGlobalChatMgr->JoinChannel && !sGlobalChatMgr->ChatName.empty() && lang != LANG_ADDON && !strcmp(channel->GetName().c_str(), sGlobalChatMgr->ChatName.c_str()))
         {
             sGlobalChatMgr->SendGlobalChat(player->GetSession(), msg.c_str());
             msg = -1;
