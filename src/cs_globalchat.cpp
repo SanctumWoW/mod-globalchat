@@ -31,16 +31,16 @@ public:
         static ChatCommandTable commandTable =
                 {
                         { "chat",        HandleGlobalChatCommand,        SEC_PLAYER,    Console::Yes },
-                        { "global",      HandleGlobalChatCommand,        SEC_PLAYER,    Console::Yes },
-                        { "g",           HandleGlobalChatCommand,        SEC_PLAYER,    Console::Yes },
+                        { "world",       HandleGlobalChatCommand,        SEC_PLAYER,    Console::Yes },
+                        { "w",           HandleGlobalChatCommand,        SEC_PLAYER,    Console::Yes },
                         { "c",           HandleGlobalChatCommand,        SEC_PLAYER,    Console::Yes },
-                        { "joinglobal",  HandleGlobalChatJoinCommand,    SEC_PLAYER,    Console::No },
-                        { "leaveglobal", HandleGlobalChatLeaveCommand,   SEC_PLAYER,    Console::No },
-                        { "gdisable",    HandleGlobalChatDisableCommand, SEC_MODERATOR, Console::Yes },
-                        { "genable",     HandleGlobalChatEnableCommand,  SEC_MODERATOR, Console::Yes },
-                        { "gmute",       HandleMuteGlobalChat,           SEC_MODERATOR, Console::Yes },
-                        { "gunmute",     HandleUnmuteGlobalChat,         SEC_MODERATOR, Console::Yes },
-                        { "ginfo",       HandlePlayerInfoGlobalChat,     SEC_MODERATOR, Console::Yes },
+                        { "joinworld",   HandleGlobalChatJoinCommand,    SEC_PLAYER,    Console::No },
+                        { "leaveworld",  HandleGlobalChatLeaveCommand,   SEC_PLAYER,    Console::No },
+                        { "wdisable",    HandleGlobalChatDisableCommand, SEC_MODERATOR, Console::Yes },
+                        { "wenable",     HandleGlobalChatEnableCommand,  SEC_MODERATOR, Console::Yes },
+                        { "wmute",       HandleMuteGlobalChat,           SEC_MODERATOR, Console::Yes },
+                        { "wunmute",     HandleUnmuteGlobalChat,         SEC_MODERATOR, Console::Yes },
+                        { "winfo",       HandlePlayerInfoGlobalChat,     SEC_MODERATOR, Console::Yes },
                 };
 
         return commandTable;
@@ -67,13 +67,13 @@ public:
 
         if (sGlobalChatMgr->GlobalChatEnabled)
         {
-            handler->PSendSysMessage("The GlobalChat is already enabled.");
+            handler->PSendSysMessage("The WorldChat is already enabled.");
             return false;
         }
 
         sGlobalChatMgr->GlobalChatEnabled = true;
         sWorld->SendWorldText(17002, playerName.c_str(), "enabled");
-        LOG_INFO("module", "GlobalChat: Player {} enabled the GlobalChat.", playerName);
+        LOG_INFO("module", "WorldChat: Player {} enabled the WorldChat.", playerName);
 
         return true;
     };
@@ -88,13 +88,13 @@ public:
 
         if (!sGlobalChatMgr->GlobalChatEnabled)
         {
-            handler->PSendSysMessage("The GlobalChat is already disabled.");
+            handler->PSendSysMessage("The WorldChat is already disabled.");
             return false;
         }
 
         sGlobalChatMgr->GlobalChatEnabled = false;
         sWorld->SendWorldText(17002, playerName.c_str(), "disabled");
-        LOG_INFO("module", "GlobalChat: Player {} disabled the GlobalChat.", playerName);
+        LOG_INFO("module", "WorldChat: Player {} disabled the WorldChat.", playerName);
 
         return true;
     };
@@ -138,7 +138,7 @@ public:
         if (atoi(duration.c_str()) < 0)
         {
             sGlobalChatMgr->Ban(guid);
-            LOG_INFO("module", "GlobalChat: Player {} banned {} in GlobalChat.", playerName, target->GetName());
+            LOG_INFO("module", "WorldChat: Player {} banned {} in WorldChat.", playerName, target->GetName());
 
             if (sGlobalChatMgr->AnnounceMutes)
             {
@@ -155,7 +155,7 @@ public:
 
         uint32 durationSecs = TimeStringToSecs(duration);
         sGlobalChatMgr->Mute(guid, durationSecs);
-        LOG_INFO("module", "GlobalChat: Player {} muted {} for {} in GlobalChat.", playerName, target->GetName(), secsToTimeString(durationSecs, true));
+        LOG_INFO("module", "WorldChat: Player {} muted {} for {} in WorldChat.", playerName, target->GetName(), secsToTimeString(durationSecs, true));
 
         if (sGlobalChatMgr->AnnounceMutes)
         {
@@ -183,7 +183,7 @@ public:
 
         ObjectGuid guid = target->GetGUID();
         sGlobalChatMgr->Unmute(guid);
-        LOG_INFO("module", "GlobalChat: Player {} was unmuted in GlobalChat.", target->GetName());
+        LOG_INFO("module", "WorldChat: Player {} was unmuted in WorldChat.", target->GetName());
 
         return true;
     };
