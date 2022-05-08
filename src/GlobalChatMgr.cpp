@@ -479,7 +479,7 @@ std::string GlobalChatMgr::GetChatPrefix()
         }
         else
         {
-            chatPrefix << "s .global ";
+            chatPrefix << "s .world ";
         }
         chatPrefix << "|h|cff" << (ChatNameColor.empty() ? "FFFF00" : ChatNameColor);
         chatPrefix << "[" << ChatName << "]|h";
@@ -493,7 +493,7 @@ std::string GlobalChatMgr::GetGMChatPrefix(TeamId teamId)
     std::ostringstream chatPrefix;
     std::string factionColor = teamId == TEAM_ALLIANCE ? "3399FF" : "CC0000";
     std::string factionName = teamId == TEAM_ALLIANCE ? "Alliance" : "Horde";
-    std::string factionCommand = teamId == TEAM_ALLIANCE ? ".galliance" : ".ghorde";
+    std::string factionCommand = teamId == TEAM_ALLIANCE ? ".walliance" : ".whorde";
 
     chatPrefix << "|Hchannel:";
     chatPrefix << "s " << factionCommand << " ";
@@ -661,7 +661,7 @@ void GlobalChatMgr::SendGlobalChat(WorldSession* session, const char* message, T
 
     if (playerSecurity == 0 && !GlobalChatEnabled)
     {
-        ChatHandler(session).PSendSysMessage("|cffff0000GlobalChat is currently disabled.|r");
+        ChatHandler(session).PSendSysMessage("|cffff0000WorldChat is currently disabled.|r");
         return;
     }
 
@@ -685,7 +685,7 @@ void GlobalChatMgr::SendGlobalChat(WorldSession* session, const char* message, T
 
     if (!IsInChat(guid))
     {
-        ChatHandler(session).PSendSysMessage("|cffff0000You have not joined the WorldChat. Type |r.joinglobal|cffff0000 to join the WorldChat.|r");
+        ChatHandler(session).PSendSysMessage("|cffff0000You have not joined the WorldChat. Type |r.joinworld|cffff0000 to join the WorldChat.|r");
         return;
     }
 

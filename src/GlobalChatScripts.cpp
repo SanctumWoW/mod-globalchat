@@ -40,7 +40,7 @@ public:
         {
             if (sGlobalChatMgr->Announce)
             {
-                ChatHandler(player->GetSession()).PSendSysMessage("This server is running the |cff4CFF00WorldChat|r module. Use |cff4CFF00.help global|r to find out how to use it.");
+                ChatHandler(player->GetSession()).PSendSysMessage("This server is running the |cff4CFF00WorldChat|r module. Use |cff4CFF00.help world|r to find out how to use it.");
             }
 
             sGlobalChatMgr->LoadPlayerData(player);
@@ -49,11 +49,11 @@ public:
             {
                 if (sGlobalChatMgr->JoinChannel && !sGlobalChatMgr->ChatName.empty())
                 {
-                    ChatHandler(player->GetSession()).PSendSysMessage("You can join the |cffFF0000WorldChat|r by typing |cffFF0000.joinglobal|r or |cffFF0000/join %s|r at any time.", sGlobalChatMgr->ChatName.c_str());
+                    ChatHandler(player->GetSession()).PSendSysMessage("You can join the |cffFF0000WorldChat|r by typing |cffFF0000.joinworld|r or |cffFF0000/join %s|r at any time.", sGlobalChatMgr->ChatName.c_str());
                 }
                 else
                 {
-                    ChatHandler(player->GetSession()).PSendSysMessage("You can join the |cffFF0000WorldChat|r by typing |cffFF0000.joinglobal|r at any time.");
+                    ChatHandler(player->GetSession()).PSendSysMessage("You can join the |cffFF0000WorldChat|r by typing |cffFF0000.joinworld|r at any time.");
                 }
             }
         }
@@ -70,7 +70,7 @@ public:
         {
             if (sGlobalChatMgr->FactionSpecific && player->GetSession()->GetSecurity() > 0)
             {
-                ChatHandler(player->GetSession()).PSendSysMessage("Please use |cff4CFF00.galliance|r or .|cff4CFF00ghorde|r for the GlobalChat as GM.");
+                ChatHandler(player->GetSession()).PSendSysMessage("Please use |cff4CFF00.walliance|r or .|cff4CFF00whorde|r for the WorldChat as GM.");
                 msg = -1;
                 return;
             }
