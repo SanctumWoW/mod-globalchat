@@ -9,7 +9,7 @@ INSERT INTO `acore_string` (`entry`, `content_default`, `locale_koKR`, `locale_f
 (17005, '|cffff0000You have been muted for %s in the WorldChat.|r Reason: %s', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (17006, '|cffff0000You have been permanently muted in the WorldChat.|r Reason: %s', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);                                                                                                                                                                           ;
 
-DELETE FROM `command` WHERE `name` IN ('world','w','chat','c','joinworld','leaveworld','wenable','wdisable','wmute','wunmute','winfo','walliance','whorde');
+DELETE FROM `command` WHERE `name` IN ('world','w','chat','c','joinworld','leaveworld','wenable','wdisable','wmute','wunmute','winfo','walliance','whorde','wblacklist','wblacklist add','wblacklist remove','wblacklist reload');
 INSERT INTO `command` (`name`, `security`, `help`) VALUES
 ('world', 0, 'Syntax: .world $text\nWrite a message in the WorldChat.\nAdditional commands: .joinworld & .leaveworld'),
 ('w', 0, 'Syntax: .w $text\nWrite a message in the WorldChat.\nAdditional commands: .joinworld & .leaveworld'),
@@ -23,4 +23,8 @@ INSERT INTO `command` (`name`, `security`, `help`) VALUES
 ('wunmute', 1, 'Syntax: $playername\nUnmutes player in the WorldChat.'),
 ('winfo', 1, 'Syntax: $playername\nGives WorldChat information about a player.'),
 ('walliance', 1, 'Syntax: .walliance $text\nWrite a message in the Alliance WorldChat.'),
-('whorde', 1, 'Syntax: .whorde $text\nWrite a message in the Horde WorldChat.');
+('whorde', 1, 'Syntax: .whorde $text\nWrite a message in the Horde WorldChat.'),
+('wblacklist', 1, 'Type .wblacklist to see the list of possible subcommands or .help wblacklist $subcommand to see info on subcommands.'),
+('wblacklist add', 1, 'Syntax: .wblacklist add $text\nAdds a phrase to the WorldChat Profanity Blacklist.'),
+('wblacklist remove', 1, 'Syntax: .walliance $text\nRemoves a phrase from the WorldChat Profanity Blacklist.'),
+('wblacklist reload', 1, 'Reloads the WorldChat Profanity Blacklist.');

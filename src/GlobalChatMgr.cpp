@@ -79,13 +79,7 @@ void GlobalChatMgr::LoadConfig(bool reload)
     // Do not remove this
     GMColors.push_back("000000");
 
-    std::string configProfanity = sConfigMgr->GetOption<std::string>("GlobalChat.Profanity.Blacklist", "");
-    std::string profanity;
-    std::istringstream ProfanityPhrases(configProfanity);
-    while (std::getline(ProfanityPhrases, profanity, ';'))
-    {
-        ProfanityBlacklist.emplace_back(profanity, std::regex::icase | std::regex::optimize);
-    }
+    LoadBlacklistDB();
     if (ProfanityFromDBC)
         LoadProfanityDBC();
 
@@ -132,6 +126,21 @@ void GlobalChatMgr::SavePlayerData(Player* player)
     CharacterDatabase.Execute("REPLACE INTO player_globalchat_status (guid,enabled,last_msg,mute_time,total_mutes,banned) VALUES ({},{},{},{},{},{});", guid.GetCounter(), playersChatData[guid].IsInChat(), playersChatData[guid].GetLastMessage(), playersChatData[guid].GetMuteTime(), playersChatData[guid].GetTotalMutes(), playersChatData[guid].IsBanned());
 }
 
+void GlobalChatMgr::LoadBlacklistDB()
+{
+    QueryResult blacklist = CharacterDatabase.Query("SELECT phrase FROM `globalchat_blacklist`");
+
+    if (!blacklist)
+        return;
+
+    do
+    {
+        Field* field = blacklist->Fetch();
+        std::string phrase = field[0].Get<std::string>();
+        ProfanityBlacklist[phrase] = std::regex{phrase, std::regex::icase | std::regex::optimize};
+    } while (blacklist->NextRow());
+}
+
 void GlobalChatMgr::LoadProfanityDBC()
 {
     LOG_DEBUG("module", "WorldChat: Loading ProfanityDBC");
@@ -159,7 +168,6 @@ void GlobalChatMgr::LoadProfanityDBC()
         }
     }
 
-    std::vector<std::string> tempValidators;
     for (ChatProfanityEntry const* chatProfanity : sChatProfanityStore)
     {
         std::string text = chatProfanity->Text;
@@ -170,14 +178,8 @@ void GlobalChatMgr::LoadProfanityDBC()
         text.erase(remove(text.begin(), text.end(), '<'), text.end());
         text.erase(remove(text.begin(), text.end(), '>'), text.end());
 
-        tempValidators.emplace_back(text);
+        ProfanityBlacklist[text] = std::regex{text, std::regex::icase | std::regex::optimize};
     }
-
-    std::sort(tempValidators.begin(), tempValidators.end());
-    tempValidators.erase(std::unique(tempValidators.begin(), tempValidators.end()), tempValidators.end());
-
-    for (std::string const& validator : tempValidators)
-        ProfanityBlacklist.emplace_back(validator, std::regex::icase | std::regex::optimize);
 }
 
 bool GlobalChatMgr::IsInChat(ObjectGuid guid)
@@ -208,8 +210,8 @@ void GlobalChatMgr::Unmute(ObjectGuid guid)
 
 bool GlobalChatMgr::HasForbiddenPhrase(std::string message)
 {
-    for (std::regex const& regex : ProfanityBlacklist)
-        if (std::regex_search(message, regex))
+    for (auto const& regex : ProfanityBlacklist)
+        if (std::regex_search(message, regex.second))
             return true;
 
     return false;
@@ -238,9 +240,9 @@ std::string GlobalChatMgr::CensorForbiddenPhrase(std::string message)
     std::ostringstream result;
     std::smatch match;
 
-    for (std::regex const& regex : ProfanityBlacklist)
+    for (auto const& regex : ProfanityBlacklist)
     {
-        if (std::regex_search(message, match, regex))
+        if (std::regex_search(message, match, regex.second))
         {
             result << match.prefix();
 
