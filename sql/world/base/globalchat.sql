@@ -26,5 +26,5 @@ INSERT INTO `command` (`name`, `security`, `help`) VALUES
 ('whorde', 1, 'Syntax: .whorde $text\nWrite a message in the Horde WorldChat.'),
 ('wblacklist', 1, 'Type .wblacklist to see the list of possible subcommands or .help wblacklist $subcommand to see info on subcommands.'),
 ('wblacklist add', 1, 'Syntax: .wblacklist add $text\nAdds a phrase to the WorldChat Profanity Blacklist.'),
-('wblacklist remove', 1, 'Syntax: .walliance $text\nRemoves a phrase from the WorldChat Profanity Blacklist.'),
+('wblacklist remove', 1, 'Syntax: .wblacklist remove $text\nRemoves a phrase from the WorldChat Profanity Blacklist.'),
 ('wblacklist reload', 1, 'Reloads the WorldChat Profanity Blacklist.');
